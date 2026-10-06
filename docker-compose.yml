@@ -15,5 +15,16 @@ services:
       timeout: 5s
       retries: 10
 
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: "Host=db;Port=5432;Database=webhooks;Username=webhook;Password=webhook_pw"
+    ports:
+      - "5080:8080"
+
 volumes:
   webhook_pgdata:
